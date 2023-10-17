@@ -6,10 +6,16 @@ To add new users database run:
 cat authentication-service/users.sql | docker exec -i go-microservices-postgres-1 psql -U postgres -d users
 ```
 
-To check database run:
+Check users database in PostgreSQL:
 
 ```sh
 echo "SELECT * FROM public.users;" | docker exec -i go-microservices-postgres-1 psql -U postgres -d users
+```
+
+Check logs in MongoDB with [https://www.mongodb.com/try/download/compass](MongoDB Compass):
+
+```mongodb
+mongodb://admin:password@localhost:27017/logs?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false
 ```
 
 ---

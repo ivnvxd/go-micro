@@ -1,5 +1,6 @@
 FRONT_END_BINARY=frontApp
 BROKER_BINARY=brokerApp
+AUTH_BINARY=authApp
 
 ## up: starts all containers in the background without forcing build
 up:
@@ -27,6 +28,12 @@ build_broker:
 	cd broker-service && env GOOS=linux CGO_ENABLED=0 go build -o ${BROKER_BINARY} ./cmd/api
 	@echo "Done!"
 
+## build_auth: builds the auth binary as a linux executable
+build_auth:
+	@echo "Building auth binary..."
+	cd authentication-service && env GOOS=linux CGO_ENABLED=0 go build -o ${AUTH_BINARY} ./cmd/api
+	@echo "Done!"
+
 ## build_front: builds the frone end binary
 build_front:
 	@echo "Building front end binary..."
@@ -43,3 +50,7 @@ stop:
 	@echo "Stopping front end..."
 	@-pkill -SIGTERM -f "./${FRONT_END_BINARY}"
 	@echo "Stopped front end!"
+
+## add table to users database
+schema:
+	cat authentication-service/users.sql | docker exec -i go-microservices-postgres-1 psql -U postgres -d users

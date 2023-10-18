@@ -5,4 +5,5 @@ use (
     ./broker-service
     ./authentication-service
     ./logger-service
+    ./mail-service
 )

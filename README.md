@@ -12,7 +12,7 @@ Check users database in PostgreSQL:
 echo "SELECT * FROM public.users;" | docker exec -i go-microservices-postgres-1 psql -U postgres -d users
 ```
 
-Check logs in MongoDB with [https://www.mongodb.com/try/download/compass](MongoDB Compass):
+Check logs in MongoDB with [MongoDB Compass](https://www.mongodb.com/try/download/compass):
 
 ```mongodb
 mongodb://admin:password@localhost:27017/logs?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false

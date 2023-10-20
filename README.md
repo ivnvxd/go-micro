@@ -1,4 +1,36 @@
-# go-microservices
+# go-micro
+
+Install the necessary tools for gRPC:
+
+```sh
+go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.27
+go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2
+```
+
+Install the [protocol buffer compiler](https://grpc.io/docs/protoc-installation/)
+
+```sh
+brew install protobuf
+```
+
+Run the following command to generate the gRPC code (optional):
+
+```sh
+cd logger-service/logs
+protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative logs.proto
+```
+
+To build all microservices and the project run:
+
+```sh
+make up_build
+```
+
+To run the frontend run:
+
+```sh
+make start
+```
 
 To add new users database run:
 

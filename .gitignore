@@ -14,8 +14,10 @@ $RECYCLE.BIN/
 # Compiled files
 *App
 
-# DB
+# Data
 db-data/
+caddy_config/
+caddy_data/
 
 # Binaries for programs and plugins
 *.exe

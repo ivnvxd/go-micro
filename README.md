@@ -1,47 +1,52 @@
 # go-micro
 
-Install the necessary tools for gRPC:
+:construction: Work in progress! :construction:
+
+## Demo
+
+Available at: [https://swarm.ivnv.dev/]
+
+## Installation
+
+### Clone repository
 
 ```sh
-go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.27
-go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2
+git clone git@github.com:ivnvxd/go-micro.git
 ```
 
-Install the [protocol buffer compiler](https://grpc.io/docs/protoc-installation/)
+### Auth Service
+
+To add new users database run:
 
 ```sh
-brew install protobuf
+make schema
 ```
 
-Run the following command to generate the gRPC code (optional):
+## Usage
 
-```sh
-cd logger-service/logs
-protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative logs.proto
-```
+### docker-compose
 
-To build all microservices and the project run:
+To build all microservices and start the app:
 
 ```sh
 make up_build
 ```
 
-To run the frontend run:
+The app will be avaialble on: [http://localhost/]
+
+### Docker Swarm
 
 ```sh
-make start
+docker swarm init
+docker stack deploy -c swarm.yml myapp
 ```
 
-To add new users database run:
-
-```sh
-cat authentication-service/users.sql | docker exec -i go-microservices-postgres-1 psql -U postgres -d users
-```
+## Testing
 
 Check users database in PostgreSQL:
 
 ```sh
-echo "SELECT * FROM public.users;" | docker exec -i go-microservices-postgres-1 psql -U postgres -d users
+echo "SELECT * FROM public.users;" | docker exec -i go-micro-postgres-1 psql -U postgres -d users
 ```
 
 Check logs in MongoDB with [MongoDB Compass](https://www.mongodb.com/try/download/compass):

@@ -82,3 +82,7 @@ stop:
 ## add table to users database
 schema:
 	cat authentication-service/users.sql | docker exec -i go-micro-postgres-1 psql -U postgres -d users
+
+## run local postgres instance
+postgres:
+	docker-compose -f postgres.yml up -d

@@ -86,3 +86,7 @@ schema:
 ## run local postgres instance
 postgres:
 	docker-compose -f postgres.yml up -d
+
+## run tests
+test:
+	go test -v ./authentication-service/cmd/api

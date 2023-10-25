@@ -1,73 +1,106 @@
 # go-micro
 
-:construction: Work in progress! :construction:
+A comprehensive example of building a web application with microservices architecture using **Go**.
+
+## Overview
+
+This repository serves as an example of a microservices-oriented application. *Microservices* are a contemporary architectural choice that breaks down applications into loosely coupled, independently deployable, and maintainable services. This project demonstrates how multiple services can effectively interact and accomplish various tasks.
+
+### Features:
+
+- **Front End Service**: Displays web pages.
+- **Authentication Service**: Manages user authentication using a Postgres database.
+- **Logging Service**: Logs events and stores them in a MongoDB database.
+- **Listener Service**: Receives and processes messages from RabbitMQ.
+- **Broker Service**: Optional gateway for the entire microservices cluster.
+- **Mail Service**: Processes JSON payloads, formats them as emails, and sends them.
+
+All the services mentioned above communicate with each other and a front-end application through multiple mechanisms: *REST API*, *RPC*, *gRPC*, and *AMQP*.
+
+The choice of Go for these services is due to its efficiency and capabilities in building distributed web applications.
+
+Moreover, this project also provides guidance on deploying the application to *Docker Swarm* and *Kubernetes*, ensuring scalability and high availability.
 
 ## Demo
 
-Demo cluster running on Caddy using Docker Swarm is available at: [https://swarm.ivnv.dev/](https://swarm.ivnv.dev/)
+Live demonstration of the cluster running on *Caddy* using *Docker Swarm*: [https://swarm.ivnv.dev/](https://swarm.ivnv.dev/)
 
-## Installation
+## Installation & Usage
 
-### Clone repository
+### Clone the Repository
 
 ```sh
 git clone git@github.com:ivnvxd/go-micro.git
 ```
 
-## Usage
+### 🐳 Using Docker-Compose
 
-### docker-compose
-
-<!-- create folder structure -->
+This is the easiest way to run the application. It will build all the services and launch them in *Docker* containers.
 
 ```sh
 make up_build # Build all microservices and start the app
-make schema  # Create schema in PostgreSQL and add test data
+make schema   # Initialize schema in PostgreSQL and populate with test data
 ```
 
-The app will be avaialble at: [http://localhost/](http://localhost/)
+Access the application at: [http://localhost/](http://localhost/)
 
-### Docker Swarm
+To stop the application use `make down`.
 
-To get all services from Docker Hub and run using Docker Swarm:
+### 🐝 Deploying with Docker Swarm
+
+*Docker Swarm* is a container orchestration tool built into Docker Engine. It allows deploying and managing a cluster of Docker nodes. The images for all services are available on [Docker Hub](https://hub.docker.com/u/ivnvxd).
 
 ```sh
-docker swarm init
-docker stack deploy -c swarm.yml myapp
+docker swarm init                        # Initialize Docker Swarm
+docker stack deploy -c swarm.yml myapp   # Deploy all services to the cluster
 ```
 
-### Kubernetes
+The application will be available at: [http://localhost/](http://localhost/)
 
-To run the app on Kubernetes using Minikube:
+To stop the application use `docker stack rm myapp && docker swarm leave --force`.
+
+### ☸️ Running on Kubernetes with Minikube
+
+This is a more advanced way to run the application. It will deploy the application to a local *Kubernetes* cluster using *Minikube*. The images for all services are available on [Docker Hub](https://hub.docker.com/u/ivnvxd).
+
+The local Postgres instance is used for the user database.
 
 ```sh
-docker-compose -f postgres.yml up -d  # run the local Postgres instance
-
-minikube start  # start the local Kubernetes cluster
-minikube addons enable ingress  # enable Ingress addon
-kubectl apply -f k8s  # deploy all services to the cluster
-minikube tunnel  # expose the app to the Internet
+docker-compose -f postgres.yml up -d      # Launch the local Postgres instance
+minikube start                            # Initialize the local Kubernetes cluster
+minikube addons enable ingress            # Activate Ingress addon
+kubectl apply -f k8s                      # Deploy all services to the cluster
+minikube tunnel                           # Expose application to the web
 ```
 
-The app is available at: [http://front-end.info/](http://front-end.info/)
+Visit the app here: [http://front-end.info/](http://front-end.info/)
+
+To stop the application use `kubectl delete -f k8s && minikube stop && docker-compose -f postgres.yml down`.
 
 ## Testing
 
-Check users database in PostgreSQL:
+- For PostgreSQL User Database:
 
 ```sh
 echo "SELECT * FROM public.users;" | docker exec -i go-micro-postgres-1 psql -U postgres -d users
 ```
 
-Check logs in MongoDB with [MongoDB Compass](https://www.mongodb.com/try/download/compass):
+- For MongoDB Logs:
+Use [MongoDB Compass](https://www.mongodb.com/try/download/compass):
 
 ```mongodb
 mongodb://admin:password@localhost:27017/logs?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false
 ```
 
+- To run unit tests:
+
+```sh
+make test
+```
+
 ---
 
-:octocat: This is the training project of the ["Working with Microservices in Go"](https://www.udemy.com/course/working-with-microservices-in-go/) course on [Udemy](https://www.udemy.com)
+:octocat: This is the training project of the ["Working with Microservices in Go"](https://www.udemy.com/course/working-with-microservices-in-go/) course available on [Udemy](https://www.udemy.com)
 
 > GitHub [@ivnvxd](https://github.com/ivnvxd) &nbsp;&middot;&nbsp;
 > LinkedIn [@Andrey Ivanov](https://www.linkedin.com/in/abivanov/)

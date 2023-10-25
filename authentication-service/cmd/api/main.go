@@ -35,6 +35,7 @@ func main() {
 	// set up config
 	app := Config{
 		Client: &http.Client{},
+		Repo:   data.NewPostgresRepository(conn),
 	}
 
 	srv := &http.Server{
